@@ -6,37 +6,43 @@
     <title>Selecciona la Dificultad</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             text-align: center;
-            background: url('background/background.jpeg') no-repeat center center fixed;
-            background-size: cover;
+            background: linear-gradient(to right, #141E30, #243B55);
             color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
         }
         .container {
-            background: rgba(0, 0, 0, 0.7);
-            padding: 20px;
-            border-radius: 10px;
-            display: inline-block;
-            margin-top: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 500px;
         }
         h1 {
-            font-size: 36px;
+            font-size: 32px;
+            margin-bottom: 20px;
         }
-        .difficulty-button {
+        button {
             font-size: 20px;
-            padding: 10px 20px;
+            padding: 12px 20px;
             margin: 10px;
             border: none;
             border-radius: 5px;
+            background: #ff9800;
+            color: white;
             cursor: pointer;
             transition: 0.3s;
+            width: 100%;
         }
-        .easy { background-color: #28a745; color: white; }
-        .easy:hover { background-color: #218838; }
-        .medium { background-color: #ffc107; color: black; }
-        .medium:hover { background-color: #e0a800; }
-        .hard { background-color: #dc3545; color: white; }
-        .hard:hover { background-color: #c82333; }
+        button:hover {
+            background: #e68900;
+        }
     </style>
 </head>
 <body>
