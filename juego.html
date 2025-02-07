@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adivina la Palabra</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background: url('background/background.jpeg') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 50px;
+        }
+        h1 {
+            font-size: 36px;
+        }
+        .word {
+            font-size: 30px;
+            letter-spacing: 15px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .message {
+            font-weight: bold;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        input {
+            font-size: 20px;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            border: none;
+        }
+        button {
+            font-size: 20px;
+            padding: 10px 20px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Adivina la Palabra</h1>
+        <p class="word" id="displayWord">_ _ _ _ _</p>
+        <p>Intentos restantes: <span id="attempts">6</span></p>
+        <input type="text" id="guessInput" maxlength="1">
+        <button onclick="guessLetter()">Adivinar</button>
+        <p class="message" id="message"></p>
+    </div>
+    
+    <script>
+        let chosenWord = "";
+        let displayArray = [];
+        let attempts = 6;
+        let difficulty = localStorage.getItem("difficulty") || "medio";
+
+        async function fetchWord() {
+            try {
+                const response = await fetch("words.json");
+                const words = await response.json();
+
+                let filteredWords = words;
+                if (difficulty === "facil") {
+                    filteredWords = words.filter(word => word.length <= 6);
+                    attempts = 10;
+                } else if (difficulty === "medio") {
+                    filteredWords = words.filter(word => word.length > 6 && word.length <= 8);
+                    attempts = 6;
+                } else if (difficulty === "dificil") {
+                    filteredWords = words.filter(word => word.length > 8);
+                    attempts = 4;
+                }
+
+                chosenWord = filteredWords[Math.floor(Math.random() * filteredWords.length)];
+                displayArray = Array(chosenWord.length).fill("_");
+                document.getElementById("displayWord").textContent = displayArray.join(" ");
+                document.getElementById("attempts").textContent = attempts;
+            } catch (error) {
+                console.error("Error al cargar las palabras:", error);
+            }
+        }
+
+        function guessLetter() {
+            let input = document.getElementById("guessInput").value.toLowerCase();
+            document.getElementById("guessInput").value = "";
+
+            if (input.length !== 1 || !/[a-z]/.test(input)) {
+                document.getElementById("message").textContent = "Ingresa una sola letra válida.";
+                return;
+            }
+
+            let correctGuess = false;
+            for (let i = 0; i < chosenWord.length; i++) {
+                if (chosenWord[i] === input) {
+                    displayArray[i] = input;
+                    correctGuess = true;
+                }
+            }
+
+            if (!correctGuess) {
+                attempts--;
+                document.getElementById("attempts").textContent = attempts;
+            }
+
+            document.getElementById("displayWord").textContent = displayArray.join(" ");
+
+            if (!displayArray.includes("_")) {
+                document.getElementById("message").textContent = "¡Felicidades! Has adivinado la palabra.";
+            } else if (attempts <= 0) {
+                document.getElementById("message").textContent = `Perdiste. La palabra era: ${chosenWord}`;
+            }
+        }
+
+        fetchWord();
+    </script>
+</body>
+</html>

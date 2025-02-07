@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selecciona la Dificultad</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: url('background/background.jpeg') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 50px;
+        }
+        h1 {
+            font-size: 36px;
+        }
+        .difficulty-button {
+            font-size: 20px;
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .easy { background-color: #28a745; color: white; }
+        .easy:hover { background-color: #218838; }
+        .medium { background-color: #ffc107; color: black; }
+        .medium:hover { background-color: #e0a800; }
+        .hard { background-color: #dc3545; color: white; }
+        .hard:hover { background-color: #c82333; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Selecciona la Dificultad</h1>
+        <button class="difficulty-button easy" onclick="selectDifficulty('facil')">Fácil</button>
+        <button class="difficulty-button medium" onclick="selectDifficulty('medio')">Medio</button>
+        <button class="difficulty-button hard" onclick="selectDifficulty('dificil')">Difícil</button>
+    </div>
+    
+    <script>
+        function selectDifficulty(level) {
+            localStorage.setItem("difficulty", level);
+            window.location.href = "juego.html";
+        }
+    </script>
+</body>
+</html>
